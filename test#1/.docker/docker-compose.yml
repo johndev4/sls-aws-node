@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  local:
+    image: johndev4/sls-aws-node
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: sls-deploy-test
+    working_dir: /localDebugRepo
+    entrypoint: /bin/bash
+    mem_limit: 4g
+    memswap_limit: 4g
+    mem_swappiness: 0
+    volumes:
+      - ../:/localDebugRepo
+    env_file:
+      - ../../../environments/.aws-env
+    tty: true
+
