@@ -1,0 +1,13 @@
+service: demo-johndev4-ccp
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: 'dev'
+  region: "ap-southeast-1"
+
+functions:
+  forAwsEventBridge:
+    role: arn:aws:iam::036003563447:role/demo-serverless-framework-lambda-role
+    handler: catchArchivedPhoto/index.handler

@@ -2,19 +2,21 @@ version: "3"
 
 services:
   local:
-    image: johndev4/sls-aws-node
+    image: johndev4/sls-aws-node:latest
     build:
       context: .
       dockerfile: ./Dockerfile
-    container_name: sls-deploy-test
+    container_name: node-builder
     working_dir: /localDebugRepo
     entrypoint: /bin/bash
     mem_limit: 4g
     memswap_limit: 4g
     mem_swappiness: 0
     volumes:
-      - ../:/localDebugRepo
+      - ../src:/localDebugRepo
     env_file:
-      - ../../../environments/.aws-env
+      - ../environments/.aws-env
+    # environment:
+    #   - AWS_PAGER=""
     tty: true
 

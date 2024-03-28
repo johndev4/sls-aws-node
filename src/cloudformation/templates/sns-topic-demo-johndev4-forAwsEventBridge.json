@@ -1,0 +1,11 @@
+{
+  "Resources": {
+    "forAwsEventBridge": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "DisplayName": "forAwsEventBridge",
+        "TopicName": "demo-johndev4-forAwsEventBridge"
+      }
+    }
+  }
+}

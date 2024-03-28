@@ -10,5 +10,6 @@ RUN set -ex \
     && npm config set registry http://registry.npmjs.org/ && npm config set loglevel info \
     && npm config set fetch-retries 3 && npm config set audit false && npm config set fetch-retry-mintimeout 15000 \
     && npm config set fetch-retry-maxtimeout 90000 && npm config set progress false \
-    && yum remove unzip -y && yum clean all && rm -rf /var/cache/yum awscliv2.zip aws
+    && yum remove unzip -y && yum clean all && rm -rf /var/cache/yum awscliv2.zip aws \
+    && yum install less -y
 CMD ["/bin/bash"]
