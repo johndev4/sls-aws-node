@@ -1,0 +1,46 @@
+service: demo-johndev4-ccp
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: "development"
+  region: "ap-southeast-1"
+  apiGateway:
+    restApiId:
+      "Fn::ImportValue": "johndev4-apigw-rest:ApiGwRestApiIdExport"
+    restApiRootResourceId:
+      "Fn::ImportValue": "johndev4-apigw-rest:ApiGwRootResourceIdExport"
+
+functions:
+  getSomethingCrazy:
+    role: arn:aws:iam::036003563447:role/demo-serverless-framework-lambda-role
+    handler: getSomethingCrazy/index.handler
+    events:
+      - http:
+          path: sse/something-crazy
+          method: get
+          cors: true
+          # authorizer:
+          #   type: COGNITO_USER_POOLS
+          #   authorizerId:
+          #     "Fn::ImportValue": "johndev4-apigw-rest:ApiGwAuthorizer"
+  downloadStream:
+    role: arn:aws:iam::036003563447:role/demo-serverless-framework-lambda-role
+    handler: downloadStream/index.handler
+    events:
+      - http:
+          path: sse/download/stream
+          method: get
+          integration: lambda
+          response:
+            headers:
+              Content-Type: "'text/event-stream'"
+              Cache-Control: "'no-cache'"
+              Connection: "'keep-alive'"
+              Access-Control-Allow-Origin: "'*'"
+          # cors: true
+          # authorizer:
+          #   type: COGNITO_USER_POOLS
+          #   authorizerId:
+          #     "Fn::ImportValue": "johndev4-apigw-rest:ApiGwAuthorizer"

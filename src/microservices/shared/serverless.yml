@@ -1,0 +1,29 @@
+service: my-api
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: "dev"
+  region: "ap-southeast-1"
+
+resources:
+  Resources:
+    johndev4MyApiGWRest:
+      Type: AWS::ApiGateway::RestApi
+      Properties:
+        Name: johndev4-apigw-rest
+
+  Outputs:
+    apiGatewayRestApiId:
+      Value:
+        Ref: johndev4MyApiGWRest
+      Export:
+        Name: johndev4-apigw-rest:ApiGwRestApiIdExport
+
+    apiGatewayRestApiRootResourceId:
+      Value:
+        Fn::GetAtt:
+          - johndev4MyApiGWRest
+          - RootResourceId
+      Export:
+        Name: johndev4-apigw-rest:ApiGwRootResourceIdExport

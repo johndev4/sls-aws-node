@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Generate API Gateway infrastructure"
+
+Resources:
+  johndev4APIGW:
+    Type: "AWS::ApiGatewayV2::Api"
+    Properties:
+      Name: "johndev4-apigw-http"
+      Description: Http API Gateway
+      ProtocolType: HTTP
+
+Outputs:
+  johndev4ApiId:
+    Value: !Ref johndev4APIGW
+    Export:
+      Name: !Sub "${AWS::StackName}:ApiGwHttpApiIdExport"

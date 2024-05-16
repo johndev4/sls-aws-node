@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Generate API Gateway infrastructure"
+
+Resources:
+  johndev4APIGW:
+    Type: "AWS::ApiGateway::RestApi"
+    Properties:
+      Name: "johndev4-apigw-rest"
+      MinimumCompressionSize: 0
+      EndpointConfiguration:
+        Types:
+          - EDGE
+  johndev4SharedAuthorizer:
+    Type: "AWS::ApiGateway::Authorizer"
+    Properties:
+      Name: !Sub "${AWS::StackName}-authorizer"
+      IdentitySource: method.request.header.Authorization
+      RestApiId: !Ref johndev4APIGW
+      Type: COGNITO_USER_POOLS
+      ProviderARNs:
+        - Fn::ImportValue: "johndev4-cognito:CognitoUserPoolArn"
+
+Outputs:
+  johndev4RestAPIId:
+    Value: !Ref johndev4APIGW
+    Export:
+      Name: !Sub "${AWS::StackName}:ApiGwRestApiIdExport"
+  johndev4ApiRootResourceId:
+    Value: !GetAtt johndev4APIGW.RootResourceId
+    Export:
+      Name: !Sub "${AWS::StackName}:ApiGwRootResourceIdExport"
+  johndev4SharedAuthorizer:
+    Value: !Ref johndev4SharedAuthorizer
+    Export:
+      Name: !Sub "${AWS::StackName}:ApiGwAuthorizer"

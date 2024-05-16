@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates a Cognito user pool with exports
+
+Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: johndev4-cognito
+      # Add other desired UserPool properties here (e.g., MfaConfiguration, etc.)
+
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: johndev4-cognito-client
+      GenerateSecret: false  # Set to true if your app needs a client secret
+      UserPoolId: !Ref UserPool
+
+Outputs:
+  CognitoUserPoolId:
+    Description: The Cognito User Pool ID
+    Value: !Ref UserPool
+    Export:
+      Name: !Join
+        - ":"
+        - - !Ref "AWS::StackName"
+          - CognitoPoolId
+  CognitoClientId:
+    Description: The Cognito User Pool Client ID
+    Value: !Ref UserPoolClient
+    Export:
+      Name: !Join
+        - ":"
+        - - !Ref "AWS::StackName"
+          - CognitoClientId
+  CognitoUserPoolArn:
+    Description: The Cognito User Pool ARN
+    Value: !GetAtt UserPool.Arn
+    Export:
+      Name: !Join
+        - ":"
+        - - !Ref "AWS::StackName"
+          - CognitoUserPoolArn
