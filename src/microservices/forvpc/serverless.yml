@@ -1,0 +1,40 @@
+service: demo-johndev4-forvpc
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: "dev"
+  region: "ap-southeast-1"
+
+functions:
+  testLambda:
+    role: arn:aws:iam::036003563447:role/demo-serverless-framework-lambda-role
+    handler: testLambda/index.handler
+    vpc:
+      securityGroupIds:
+        - sg-04d130ad87d801f49
+      subnetIds:
+        - subnet-0be8748f7fd7e1542 # PUBLIC
+        - subnet-0e4ac6b304c6e601a # PRIVATE
+  snsDispatcher:
+    role: arn:aws:iam::036003563447:role/demo-serverless-framework-lambda-role
+    handler: snsDispatcher/index.handler
+    events:
+      - sns:
+          arn: arn:aws:sns:ap-southeast-1:036003563447:johndev4-demo-sns-topic
+    vpc:
+      securityGroupIds:
+        - sg-04d130ad87d801f49
+      subnetIds:
+        - subnet-0be8748f7fd7e1542 # PUBLIC
+        - subnet-0e4ac6b304c6e601a # PRIVATE
+  helloWorld:
+    role: arn:aws:iam::036003563447:role/demo-serverless-framework-lambda-role
+    handler: helloWorld/index.handler
+    vpc:
+      securityGroupIds:
+        - sg-04d130ad87d801f49
+      subnetIds:
+        - subnet-0be8748f7fd7e1542 # PUBLIC
+        - subnet-0e4ac6b304c6e601a # PRIVATE
